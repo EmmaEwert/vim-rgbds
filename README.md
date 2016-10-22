@@ -1,2 +1,2 @@
 # vim-rgbds
-Rednex GameBoy Development System
+Syntax for Rednex GameBoy Development System.

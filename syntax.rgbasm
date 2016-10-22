@@ -1,0 +1,121 @@
+* Example syntax
+                set     0, [hl]
+
+                pusho
+                opt     g.o0X
+                dw      `.oo00XX
+                popo
+                dw      `00112233
+
+John:           ld      a, 87 ;Weee
+          
+
+********************************
+* These are full line comments *
+********************************
+
+section         "CoolStuff",romX
+section         "CoolStuff",rom0[$1234]
+SECTION         "CoolStuff",romX[$4567],bank[3]
+SECTION         "CoolStuff",romX,bank[7]
+
+GlobalLabel
+AnotherGlobal:
+.locallabel
+.yet_a_local:
+ThisWillBeExported::        ;note the two colons
+
+DonutIsGood     equ     $01
+DonutIsBad      equ     $02
+
+kinkycount      set     2
+kinkycount      set     DonutIsGood+kinkycount
+
+                rsreset
+str_pStuff      rw      1
+str_tData       rb      256
+str_bCount      rb      1
+str_SIZEOF      rb      0
+
+countreg        equs    "[hl+]"
+                ld      a, COUNTREG
+pusha           equs    "push af\npush bc\npush de\npush hl\n"
+
+MyMacro:        macro
+                ld      a, 80
+                call    MyFunc
+                endm
+
+LoopyMacro:     macro
+                xor     a, a
+.loop           ld      [hl+], a
+                dec     c
+                jr      nz, .loop
+                endm
+               
+LoopyMacro:     macro
+                xor     a,a
+.loop\@         ld      [hl+],a
+                dec     c
+                jr      c,.loop\@
+                endm
+               
+LoopyMacro:     macro
+                ld      hl, \1
+                ld      c, \2
+                xor     a, a
+.loop\@         ld      [hl+], a
+                dec     c
+                jr      nz, .loop\@
+                ENDM
+
+                LoopyMacro  MyVars, 54
+                
+                import  label, label
+                export  label, label
+                global  label, label
+                xref    label, label
+                xdef    label, label
+
+Kamikaze        equs    "I don't want to live anymore"
+AOLer           equs    "Me too"
+                purge   Kamikaze, AOLer
+
+                @
+                _PI
+                _RS
+                _NARG
+                __LINE__
+                __FILE__
+                __DATE__
+                __TIME__
+
+                printt  "I'm the greatest programmer in the whole wide world\n"
+                printv  (2+3)/5
+                printf  mul(3.14,3987.0)
+
+                rept    4
+                add     a, c
+                endr
+
+; --
+; -- Generate a 256 byte sine table with values between 0 and 128
+; --
+angle           set     0.0
+                rept    256
+                db      (mul(64.0,sin(angle))+64.0)>>16
+angle           set     angle+256.0
+                endr
+        
+                fail    "Fatal error"
+                warn    "Minor error"
+
+                include "irq.inc"
+                
+                if      2+2==4
+                printt  "2+2==4\n"
+                else
+                printt  "2+2!=4\n"
+                endc
+               
+; vim:ft=rgbds et sts=2 sw=2

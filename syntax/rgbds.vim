@@ -13,11 +13,20 @@ syn match rgbLocal /\.\I\i*/
 " Any other stuff
 syn match rgbIdentifier /\I\i*/
 
+" RGBDS commands
+syn keyword rgbPreProc db dw ds equ equs import export global xref xdef div mul
+syn keyword rgbPreProc sin cos tan asin acos atan atan2 fail warn if else endc
+syn keyword rgbPreProc incbin include macro endm bank def opt popo pusho pushs
+syn keyword rgbPreProc printt printv printf purge rept endr rsset rsreset rb rw
+syn keyword rgbPreProc section shift
+syn match rgbPreProc /\<set\>/
+
 " asm opcodes
 syn keyword rgbInstruction adc add and bit call ccf cp cpl daa dec di ei ex halt
 syn keyword rgbInstruction halt inc jp jr ld ldd ldi ldh ldio nop or pop push
 syn keyword rgbInstruction res ret reti rl rla rlc rlca rr rra rrc rrca rst sbc
-syn keyword rgbInstruction scf set sla sra srl stop sub swap xor
+syn keyword rgbInstruction scf sla sra srl stop sub swap xor
+syn match rgbInstruction /\<set\>\ze.*,/
 
 " section types
 syn keyword rgbType rom0 romx vram sram wram0 wramx hram
@@ -27,15 +36,9 @@ syn keyword rgbRegister a b d e f h l af bc de hl
 syn match rgbRegister /\<c\>/
 
 " Flags
-syn keyword rgbFlag z nz nc
-syn match rgbFlag /\(call\|jr\|jp\|ret\)\@<=\s\+\zsc\>/
+syn keyword rgbSpecial z nz nc sp
+syn match rgbSpecial /\(call\|jr\|jp\|ret\)\@<=\s\+\zsc\>/
 
-" RGBDS commands
-syn keyword rgbPreProc db dw ds equ equs import export global xref xdef div mul
-syn keyword rgbPreProc sin cos tan asin acos atan atan2 fail warn if else endc
-syn keyword rgbPreProc incbin include macro endm bank def opt popo pusho pushs
-syn keyword rgbPreProc printt printv printf purge rept endr rsset rsreset rb rw
-syn keyword rgbPreProc section set shift
 
 " Numeric formats
 syn match rgbNumber /\$\zs\x\+/
@@ -64,9 +67,9 @@ syn case match
 let b:current_syntax = "rgb"
 
 hi link rgbSection     Special
-hi link rgbLabel       Label
+hi link rgbLabel       Identifier
 hi link rgbComment     Comment
-hi link rgbInstruction Statement
+hi link rgbInstruction Ignore
 hi link rgbInclude     Include
 hi link rgbPreCondit   PreCondit
 hi link rgbMacro       Macro
@@ -77,5 +80,5 @@ hi link rgbType        Type
 hi link rgbIdentifier  Identifier
 hi link rgbPresym      Constant
 hi link rgbRegister    Type
-hi link rgbFlag        Special
+hi link rgbSpecial     Special
 hi link rgbLocal       Label
